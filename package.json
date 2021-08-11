@@ -18,13 +18,13 @@
     "xterm-addon-web-links": "^0.4.0"
   },
   "bugs": {
-    "url": "https://github.com/manateelazycat/emacs-application-framework/issues"
+    "url": "https://github.com/emacs-eaf/emacs-application-framework/issues"
   },
-  "homepage": "https://github.com/manateelazycat/emacs-application-framework#readme",
+  "homepage": "https://github.com/emacs-eaf/emacs-application-framework#readme",
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manateelazycat/emacs-application-framework.git"
+    "url": "git+https://github.com/emacs-eaf/emacs-application-framework.git"
   },
   "description": ""
 }
