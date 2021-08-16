@@ -109,7 +109,8 @@ class AppBuffer(BrowserBuffer):
                                            .replace("%3", theme)\
                                            .replace("%4", str(get_emacs_var("eaf-terminal-font-size")))\
                                            .replace("%5", self.current_directory)\
-                                           .replace("%6", get_emacs_var("eaf-terminal-font-family"))
+                                           .replace("%6", get_emacs_var("eaf-terminal-font-family"))\
+                                           .replace("%7", get_emacs_var("eaf-emacs-theme-background-color"))
             self.buffer_widget.setHtml(html)
 
     def checking_status(self):
