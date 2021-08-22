@@ -43,10 +43,7 @@ class AppBuffer(BrowserBuffer):
         self.http_url = "http://127.0.0.1:{0}".format(get_free_port())
         self.url = url
 
-        (self.terminal_font_size, self.terminal_font_family, self.theme_background_color) = get_emacs_vars([
-            "eaf-terminal-font-size",
-            "eaf-terminal-font-family",
-            "eaf-emacs-theme-background-color"])
+        (self.terminal_font_size, self.terminal_font_family) = get_emacs_vars(["eaf-terminal-font-size", "eaf-terminal-font-family"])
 
         arguments_dict = json.loads(arguments)
         self.command = arguments_dict["command"]
