@@ -23,7 +23,7 @@ from PyQt5.QtCore import QUrl, QTimer, QPointF, Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QApplication
 from core.webengine import BrowserBuffer
-from core.utils import PostGui, get_free_port, interactive, string_to_base64, eval_in_emacs, message_to_emacs, get_emacs_var
+from core.utils import PostGui, get_free_port, interactive, string_to_base64, eval_in_emacs, message_to_emacs, get_emacs_vars
 import os
 import subprocess
 import signal
@@ -42,6 +42,11 @@ class AppBuffer(BrowserBuffer):
         self.port = get_free_port()
         self.http_url = "http://127.0.0.1:{0}".format(get_free_port())
         self.url = url
+
+        (self.terminal_font_size, self.terminal_font_family, self.theme_background_color) = get_emacs_vars([
+            "eaf-terminal-font-size",
+            "eaf-terminal-font-family",
+            "eaf-emacs-theme-background-color"])
 
         arguments_dict = json.loads(arguments)
         self.command = arguments_dict["command"]
@@ -107,10 +112,10 @@ class AppBuffer(BrowserBuffer):
             html = f.read().decode("utf-8").replace("%1", str(self.port))\
                                            .replace("%2", self.http_url)\
                                            .replace("%3", theme)\
-                                           .replace("%4", str(get_emacs_var("eaf-terminal-font-size")))\
+                                           .replace("%4", str(self.terminal_font_size))\
                                            .replace("%5", self.current_directory)\
-                                           .replace("%6", get_emacs_var("eaf-terminal-font-family"))\
-                                           .replace("%7", get_emacs_var("eaf-emacs-theme-background-color"))
+                                           .replace("%6", self.terminal_font_family)\
+                                           .replace("%7", self.theme_background_color)
             self.buffer_widget.setHtml(html)
 
     def checking_status(self):
@@ -234,7 +239,10 @@ class AppBuffer(BrowserBuffer):
 
     def dark_mode_is_enabled(self):
         ''' Return bool of whether dark mode is enabled.'''
-        return (get_emacs_var("eaf-terminal-dark-mode") == "force" or \
-                get_emacs_var("eaf-terminal-dark-mode") == True or \
-                (get_emacs_var("eaf-terminal-dark-mode") == "follow" and \
-                 get_emacs_var("eaf-emacs-theme-mode") == "dark"))
+        (terminal_dark_mode, theme_mode) = get_emacs_vars([
+            "eaf-terminal-dark-mode",
+            "eaf-emacs-theme-mode"])
+        return (terminal_dark_mode == "force" or \
+                terminal_dark_mode == True or \
+                (terminal_dark_mode == "follow" and \
+                 theme_mode == "dark"))
