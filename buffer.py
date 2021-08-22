@@ -236,10 +236,8 @@ class AppBuffer(BrowserBuffer):
 
     def dark_mode_is_enabled(self):
         ''' Return bool of whether dark mode is enabled.'''
-        (terminal_dark_mode, theme_mode) = get_emacs_vars([
-            "eaf-terminal-dark-mode",
-            "eaf-emacs-theme-mode"])
+        (terminal_dark_mode) = get_emacs_vars(["eaf-terminal-dark-mode"])
         return (terminal_dark_mode == "force" or \
                 terminal_dark_mode == True or \
                 (terminal_dark_mode == "follow" and \
-                 theme_mode == "dark"))
+                 self.theme_mode == "dark"))
