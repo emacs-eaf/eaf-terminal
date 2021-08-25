@@ -2,13 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <script type="text/javascript" src="%2/node_modules/xterm/lib/xterm.js"></script>
-    <script type="text/javascript" src="%2/node_modules/xterm-addon-attach/lib/xterm-addon-attach.js"></script>
-    <script type="text/javascript" src="%2/node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
-    <script type="text/javascript" src="%2/node_modules/xterm-addon-search/lib/xterm-addon-search.js"></script>
-    <script type="text/javascript" src="%2/node_modules/xterm-addon-web-links/lib/xterm-addon-web-links.js"></script>
-    <script type="text/javascript" src="%2/%3_theme.js"></script>
-    <link rel="stylesheet" href="%2/node_modules/xterm/css/xterm.css" />
+    <script type="text/javascript" src="%{http_url}/node_modules/xterm/lib/xterm.js"></script>
+    <script type="text/javascript" src="%{http_url}/node_modules/xterm-addon-attach/lib/xterm-addon-attach.js"></script>
+    <script type="text/javascript" src="%{http_url}/node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+    <script type="text/javascript" src="%{http_url}/node_modules/xterm-addon-search/lib/xterm-addon-search.js"></script>
+    <script type="text/javascript" src="%{http_url}/node_modules/xterm-addon-web-links/lib/xterm-addon-web-links.js"></script>
+    <script type="text/javascript" src="%{http_url}/%{theme}_theme.js"></script>
+    <link rel="stylesheet" href="%{http_url}/node_modules/xterm/css/xterm.css" />
 
     <style>
      /* Make terminal fit full area of window */
@@ -34,26 +34,26 @@
 
     <script>
      try {
-       var socket = new WebSocket("ws://127.0.0.1:%1");
+       var socket = new WebSocket("ws://127.0.0.1:%{port}");
      }
      catch(err) {
        location.reload();
      }
 
-     theme.background = "%7"
-     theme.foreground = "%8"
+     theme.background = "%{theme_background_color}";
+     theme.foreground = "%{theme_foreground_color}";
 
      const term = new Terminal({
-       fontSize: "%4",
+       fontSize: "%{terminal_font_size}",
        lineHeight: 1.2,
        cursorBlink: true,
        theme: theme
      });
-     if ("%6") {
-       term.setOption("fontFamily", "%6");
+     if ("%{terminal_font_family}") {
+       term.setOption("fontFamily", "%{terminal_font_family}");
      }
 
-     var title = "%5"
+     var title = "%{current_directory}"
      var executing_command = ""
 
      const searchAddon = new SearchAddon.SearchAddon();
