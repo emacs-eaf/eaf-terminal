@@ -112,7 +112,8 @@ class AppBuffer(BrowserBuffer):
                                            .replace("%4", str(self.terminal_font_size))\
                                            .replace("%5", self.current_directory)\
                                            .replace("%6", self.terminal_font_family)\
-                                           .replace("%7", self.theme_background_color)
+                                           .replace("%7", self.theme_background_color)\
+                                           .replace("%8", self.theme_foreground_color)
             self.buffer_widget.setHtml(html)
 
     def checking_status(self):
