@@ -19,20 +19,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt5.QtCore import QUrl, QTimer, QPointF, Qt
-from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import QTimer
+from core.utils import PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars
 from core.webengine import BrowserBuffer
-from core.utils import PostGui, get_free_port, interactive, string_to_base64, eval_in_emacs, message_to_emacs, get_emacs_vars
+import json
 import os
 import subprocess
-import signal
 import threading
-import getpass
-import json
-from urllib import request
-from http.server import SimpleHTTPRequestHandler
-from socketserver import TCPServer
 
 class AppBuffer(BrowserBuffer):
     def __init__(self, buffer_id, url, arguments):
@@ -89,6 +82,7 @@ class AppBuffer(BrowserBuffer):
         self.timer.timeout.connect(self.checking_status)
 
     def run_http_server(self):
+        from http.server import SimpleHTTPRequestHandler
         class Handler(SimpleHTTPRequestHandler):
             def __init__(self, *args, **kwargs):
                 # directory=os.path.dirname(__file__), This argument add in python3.7 after
@@ -98,6 +92,7 @@ class AppBuffer(BrowserBuffer):
                 # default use the project path.
                 path = super().translate_path(path)
                 return os.path.dirname(__file__) + path[len(os.getcwd()):]
+        from socketserver import TCPServer
         with TCPServer(("127.0.0.1", int(self.http_url.split(":")[-1])), Handler) as h:
             h.serve_forever()
 
@@ -105,6 +100,7 @@ class AppBuffer(BrowserBuffer):
     def open_terminal_page(self):
         theme = "dark" if self.dark_mode_is_enabled() else "light"
 
+        from urllib import request
         with request.urlopen(self.index_file) as f:
             html = f.read().decode("utf-8").replace("%{port}", str(self.port))\
                                            .replace("%{http_url}", self.http_url)\
@@ -153,6 +149,7 @@ class AppBuffer(BrowserBuffer):
     @interactive
     def yank_text(self):
         text = self.get_clipboard_text()
+        from core.utils import string_to_base64
         self.buffer_widget.eval_js("paste('{}');".format(string_to_base64(text)))
 
     @interactive
