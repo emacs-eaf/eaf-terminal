@@ -20,7 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt5.QtCore import QTimer
-from core.utils import PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars
+from core.utils import PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars, get_app_dark_mode
 from core.webengine import BrowserBuffer
 import json
 import os
@@ -235,8 +235,4 @@ class AppBuffer(BrowserBuffer):
 
     def dark_mode_is_enabled(self):
         ''' Return bool of whether dark mode is enabled.'''
-        (terminal_dark_mode, ) = get_emacs_vars(["eaf-terminal-dark-mode"])
-        return (terminal_dark_mode == "force" or \
-                terminal_dark_mode == True or \
-                (terminal_dark_mode == "follow" and \
-                 self.theme_mode == "dark"))
+        return get_app_dark_mode("eaf-terminal-dark-mode")
