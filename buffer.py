@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt5.QtCore import QTimer
+from PyQt6.QtCore import QTimer
 from core.utils import PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars, get_app_dark_mode
 from core.webengine import BrowserBuffer
 import json
