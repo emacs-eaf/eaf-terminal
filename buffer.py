@@ -150,7 +150,7 @@ class AppBuffer(BrowserBuffer):
     def yank_text(self):
         text = self.get_clipboard_text()
         from core.utils import string_to_base64
-        self.buffer_widget.eval_js("paste('{}');".format(string_to_base64(text)))
+        self.buffer_widget.eval_js_function("paste", string_to_base64(text))
 
     @interactive
     def scroll_other_buffer(self, scroll_direction, scroll_type):
@@ -167,46 +167,46 @@ class AppBuffer(BrowserBuffer):
 
     @interactive
     def scroll_up(self):
-        self.buffer_widget.eval_js("scroll_line(1);")
+        self.buffer_widget.eval_js_function("scroll_line", 1)
 
     @interactive
     def scroll_down(self):
-        self.buffer_widget.eval_js("scroll_line(-1);")
+        self.buffer_widget.eval_js_function("scroll_line", -1)
 
     @interactive
     def scroll_up_page(self):
-        self.buffer_widget.eval_js("scroll_page(1);")
+        self.buffer_widget.eval_js_function("scroll_page", 1)
 
     @interactive
     def scroll_down_page(self):
-        self.buffer_widget.eval_js("scroll_page(-1);")
+        self.buffer_widget.eval_js_function("scroll_page", -1)
 
     @interactive
     def scroll_to_begin(self):
-        self.buffer_widget.eval_js("scroll_to_begin();")
+        self.buffer_widget.eval_js_function("scroll_to_begin")
 
     @interactive
     def scroll_to_bottom(self):
-        self.buffer_widget.eval_js("scroll_to_bottom();")
+        self.buffer_widget.eval_js_function("scroll_to_bottom")
 
     def select_all(self):
-        self.buffer_widget.eval_js("select_all();")
+        self.buffer_widget.eval_js_function("select_all")
 
     def clear_selection(self):
-        self.buffer_widget.eval_js("clear_selection();")
+        self.buffer_widget.eval_js_function("clear_selection")
 
     def clear(self):
-        self.buffer_widget.eval_js("clear();")
+        self.buffer_widget.eval_js_function("clear")
 
     def _search_text(self, text, is_backward = False):
         if self.search_term != text:
             self.search_term = text
         if is_backward:
             # self.web_page.findText(self.search_term, self.web_page.FindBackward)
-            self.buffer_widget.eval_js("find_next('{}')".format(text))
+            self.buffer_widget.eval_js_function("find_next", text)
         else:
             # self.web_page.findText(self.search_term)
-            self.buffer_widget.eval_js("find_prev('{}')".format(text))
+            self.buffer_widget.eval_js_function("find_prev", text)
 
     @interactive
     def search_text_forward(self):
