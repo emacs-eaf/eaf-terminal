@@ -47,6 +47,8 @@ class AppBuffer(BrowserBuffer):
         self.server_js = os.path.join(os.path.dirname(__file__), "server.js")
 
         self.buffer_widget.titleChanged.connect(self.change_title)
+        
+        self.update_title(url)
 
         http_thread = threading.Thread(target=self.run_http_server, args=())
         http_thread.start()
@@ -80,7 +82,7 @@ class AppBuffer(BrowserBuffer):
         self.timer=QTimer()
         self.timer.start(250)
         self.timer.timeout.connect(self.checking_status)
-
+        
     def run_http_server(self):
         from http.server import SimpleHTTPRequestHandler
         class Handler(SimpleHTTPRequestHandler):
@@ -123,7 +125,7 @@ class AppBuffer(BrowserBuffer):
             self.change_title(changed_executing_command)
             self.executing_command = changed_executing_command
         elif changed_executing_command == "" and self.executing_command != "" or not changed_directory == self.current_directory:
-            self.change_title(changed_directory)
+            self.update_title(changed_directory)
             if not changed_directory == self.current_directory:
                 eval_in_emacs('eaf--change-default-directory', [self.buffer_id, changed_directory])
                 self.current_directory = changed_directory
@@ -236,3 +238,6 @@ class AppBuffer(BrowserBuffer):
     def dark_mode_is_enabled(self):
         ''' Return bool of whether dark mode is enabled.'''
         return get_app_dark_mode("eaf-terminal-dark-mode")
+
+    def update_title(self, url):
+        self.change_title("Term [{}]".format(os.path.sep.join(list(filter(lambda x: x != '', url.split(os.path.sep)))[-2:])))
