@@ -20,7 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt6.QtCore import QTimer
-from core.utils import PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars, get_app_dark_mode
+from core.utils import PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars, get_emacs_func_result, get_app_dark_mode
 from core.webengine import BrowserBuffer
 import json
 import os
@@ -177,11 +177,13 @@ class AppBuffer(BrowserBuffer):
 
     @interactive
     def scroll_up_page(self):
-        self.buffer_widget.eval_js_function("scroll_page", 1)
+        row_number = get_emacs_func_result("eaf-terminal-get-row-number", [])
+        self.buffer_widget.eval_js_function("scroll_line", row_number)
 
     @interactive
     def scroll_down_page(self):
-        self.buffer_widget.eval_js_function("scroll_page", -1)
+        row_number = get_emacs_func_result("eaf-terminal-get-row-number", [])
+        self.buffer_widget.eval_js_function("scroll_line", -row_number)
 
     @interactive
     def scroll_to_begin(self):

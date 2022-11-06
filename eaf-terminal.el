@@ -167,6 +167,9 @@
        (eaf--non-remote-default-directory))
     (message "[EAF/terminal] Please install ipython first.")))
 
+(defun eaf-terminal-get-row-number ()
+  (/ (nth 3 (blink-search-get-window-allocation (get-buffer-window blink-search-candidate-buffer))) (line-pixel-height)))
+
 (defun eaf-terminal-run-command-in-dir (command dir &optional always-new)
   "Run COMMAND in terminal in directory DIR.
 
