@@ -19,12 +19,16 @@ Terminal application for the [Emacs Application Framework](https://github.com/em
 
 | Key   | Event   |
 | :---- | :------ |
-| `M-n` | scroll_up |
-| `M-p` | scroll_down |
+| `M-j` | scroll_up |
+| `M-k` | scroll_down |
+| `s-J` | scroll_up |
+| `s-K` | scroll_down |
 | `C-v` | scroll_up_page |
 | `M-v` | scroll_down_page |
 | `M-<` | scroll_to_begin |
 | `M->` | scroll_to_bottom |
+| `C-z k` | scroll_to_begin |
+| `C-z j` | scroll_to_bottom |
 | `C--` | zoom_out |
 | `C-=` | zoom_in |
 | `C-0` | zoom_reset |
