@@ -20,7 +20,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt6.QtCore import QTimer
-from core.utils import PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars, get_emacs_func_result, get_app_dark_mode
+from core.utils import (PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars, get_emacs_func_result, get_app_dark_mode,
+                        get_emacs_theme_mode, get_emacs_theme_background, get_emacs_theme_foreground)
 from core.webengine import BrowserBuffer
 import json
 import os
@@ -114,6 +115,17 @@ class AppBuffer(BrowserBuffer):
                                            .replace("%{theme_foreground_color}", self.theme_foreground_color)
 
             self.buffer_widget.setHtml(html)
+
+    @interactive
+    def update_theme(self):
+        self.theme_mode = get_emacs_theme_mode()
+        self.theme_foreground_color = get_emacs_theme_foreground()
+        self.theme_background_color = get_emacs_theme_background()
+        self.buffer_widget.eval_js("document.body.style.background = '{}'; document.body.style.color = '{}'".format(
+            self.theme_background_color, self.theme_foreground_color))
+        self.buffer_widget.eval_js_file(os.path.join(os.path.dirname(__file__), "dark_theme.js" if self.theme_mode == "dark" else "light_theme.js"))
+        self.buffer_widget.eval_js("theme.background = '{}'; theme.foreground = '{}'; term.setOption('theme', theme);".format(
+            self.theme_background_color, self.theme_foreground_color))
 
     def checking_status(self):
         changed_directory = str(self.buffer_widget.execute_js("title"))
