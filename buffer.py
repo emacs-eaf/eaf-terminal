@@ -118,11 +118,7 @@ class AppBuffer(BrowserBuffer):
 
     @interactive
     def update_theme(self):
-        self.theme_mode = get_emacs_theme_mode()
-        self.theme_foreground_color = get_emacs_theme_foreground()
-        self.theme_background_color = get_emacs_theme_background()
-        self.buffer_widget.eval_js("document.body.style.background = '{}'; document.body.style.color = '{}'".format(
-            self.theme_background_color, self.theme_foreground_color))
+        super().update_theme()
         self.buffer_widget.eval_js_file(os.path.join(os.path.dirname(__file__), "dark_theme.js" if self.theme_mode == "dark" else "light_theme.js"))
         self.buffer_widget.eval_js("theme.background = '{}'; theme.foreground = '{}'; term.setOption('theme', theme);".format(
             self.theme_background_color, self.theme_foreground_color))
