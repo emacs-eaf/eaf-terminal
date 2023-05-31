@@ -20,8 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt6.QtCore import QTimer
-from core.utils import (PostGui, get_free_port, interactive, eval_in_emacs, message_to_emacs, get_emacs_vars, get_emacs_func_result, get_app_dark_mode,
-                        get_emacs_theme_mode, get_emacs_theme_background, get_emacs_theme_foreground)
+from core.utils import *
 from core.webengine import BrowserBuffer
 import json
 import os
